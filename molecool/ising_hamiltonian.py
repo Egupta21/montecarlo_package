@@ -30,14 +30,15 @@ class IsingHamiltonian:
             #print(i)
             for j in self.J[i]:
                 if j[0] < i:
-                    continue
+                    if state_list[i] != state_list[j[0]]:
+                        e -= j[1]
+                    else:
+                        e += j[1]
                 #print(j)
-                if state_list[i] == state_list[j[0]]:
-                    e += j[1]
-                else:
-                    e -= j[1]
     
-        e += np.dot(self.mus, 2*state.config-1)
+        vec = 2*state.config - 1
+        dot_product = np.inner(self.mus, 2*state.config-1)
+        e += dot_product
         
         return e
         

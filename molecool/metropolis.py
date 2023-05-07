@@ -21,7 +21,7 @@ def metropolis_montecarlo(ham, state, T=1, nsweep=1000, nburn=100):
     Mi = state.get_mag()
     M_samples[0]  = Mi 
     E_samples[0]  = Ei
-    MM_samples[0]  = Mi*Mi 
+    MM_samples[0]  = Mi*Ei
     EE_samples[0]  = Ei*Ei
     for si in range(1,nsweep):
         ham.metropolis_sweep(state, T=T)
