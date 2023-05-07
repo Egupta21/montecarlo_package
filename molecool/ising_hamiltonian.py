@@ -93,7 +93,7 @@ class IsingHamiltonian:
             delta_e = self.delta_e_for_flip(i, state)
             
             if delta_e < 0:
-                state.flip[i]
+                state.config[i] = 1 - state.config[i]
                 """if state.config[i] == 0:
                     state.config[i] = 1
                 else:
@@ -101,7 +101,7 @@ class IsingHamiltonian:
             else:
                 r = random.random()
                 if r < np.exp(-delta_e/T):
-                    state.flip[i]
+                    state.config[i] = 1 - state.config[i]
                     """if state[i] == 0:
                         state[i] = 1
                     else:
