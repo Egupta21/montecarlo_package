@@ -87,7 +87,7 @@ class IsingHamiltonian:
             Ei = self.energy(conf)
             
             B = np.exp(-Ei/T)
-            print(B)
+            #print(B)
             
             E += Ei*B
             EE += Ei**2*B
