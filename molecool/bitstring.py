@@ -45,14 +45,10 @@ class BitString:
         return self.string
     
     def flip(self, i):
-        self.string
-        if self.string[i] == 0:
-            self.string[i] = 1
+        if self.config[i] == 1:
+            self.config[i] = 0
         else:
-            self.string[i] = 0
-            
-        for i in range(str):
-            self.config[i] = self.string[i]
+            self.config[i] = 1
 
     def set_string(self, list):
         tempstr = ""

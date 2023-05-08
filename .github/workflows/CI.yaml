@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
-        python-version: [3.8, 3.9, "3.10"]
+        python-version: [3.8, 3.9, 3.10]
 
     steps:
       - uses: actions/checkout@v3
@@ -42,13 +42,13 @@ jobs:
           auto-activate-base: false
           show-channel-urls: true
       # More info on options: https://github.com/marketplace/actions/provision-with-micromamba
-      - uses: mamba-org/provision-with-micromamba@main
+      """- uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: devtools/conda-envs/test_env.yaml
           environment-name: test
           channels: conda-forge,defaults
           extra-specs: |
-            python=${{ matrix.python-version }}
+            python=${{ matrix.python-version }}"""
 
       - name: Install package
         # conda setup requires this special shell
