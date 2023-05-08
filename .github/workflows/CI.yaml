@@ -41,6 +41,14 @@ jobs:
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true
+      
+      - uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: devtools/conda-envs/test_env.yaml
+          environment-name: test
+          channels: conda-forge,defaults
+          extra-specs: |
+            python=${{ matrix.python-version }}
 
       - name: Install package
         # conda setup requires this special shell
