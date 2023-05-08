@@ -19,9 +19,6 @@ class IsingHamiltonian:
         self.mus = mus  # magnetic field strength for each node
         
     def energy(self, state):
-        
-        if len(state.config) != len(self.J):
-                error("wrong dimension")
                 
         e = 0.0
         state_list = list(state)
@@ -29,40 +26,17 @@ class IsingHamiltonian:
             #print()
             #print(i)
             for j in self.J[i]:
-                if j[0] < i:
+                if j[0] > i:
                     if state_list[i] != state_list[j[0]]:
                         e -= j[1]
                     else:
                         e += j[1]
                 #print(j)
     
-        vec = 2*state.config - 1
         dot_product = np.inner(self.mus, 2*state.config-1)
         e += dot_product
         
         return e
-        
-        """if len(state.config) != len(self.J):
-            #print (len(state.config))
-            #print len(self.J)
-            #print ("failed")
-            pass
-        
-        e = 0.0
-        state_list = list(state)
-
-        for i in range(state.N):
-            for j in self.J[i]:
-                if j[0] >= i and state_list[i] == state_list[j[0]]:
-                    e += j[1]
-                elif j[0] >= i:
-                    e -= j[1]
-        for i in range(len(state)):
-            e -= self.mus[i] * state_list[i]
-                    
-        e += np.dot(self.mus, 2*state.config-1)
-
-        return e"""
         
     def delta_e_for_flip(self, i, state):
     
@@ -76,19 +50,6 @@ class IsingHamiltonian:
         return del_e
     
     def metropolis_sweep(self, state, T=1.0):
-        """Perform a single sweep through all the sites and return updated configuration
-        Parameters
-        ----------
-        state   : list[int]
-            Input state/configuration 
-        T       : float
-            Temperature
-            
-        Returns
-        -------
-        state   : list[int]
-            Returns updated state/configuration
-        """
         
         for i in range(len(state)):
             delta_e = self.delta_e_for_flip(i, state)
@@ -111,29 +72,11 @@ class IsingHamiltonian:
         return state
     
     def compute_average_values(self, state, T):
-        """ Compute Average values exactly
-        Parameters
-        ----------
-        state   : list[int]
-            input state/configuration 
-        T       : float
-            Temperature
-        
-        Returns
-        -------
-        E       : float 
-            Energy
-        M       : float
-            Magnetization
-        HC      : float
-            Heat Capacity
-        MS      : float
-            Magnetic Susceptability
-        """
+
         n_sites = len(state)
         E = 0.0
         M = 0.0
-        Z = 0.0
+        Bi = 0.0
         EE = 0.0
         MM = 0.0
         
@@ -142,20 +85,22 @@ class IsingHamiltonian:
             spin_str = ''.join(str(x) for x in spin)
             conf = montecarlo.BitString(spin_str)
             Ei = self.energy(conf)
-            Zi = np.exp(-Ei/T)
-            E += Ei*Zi
-            EE += Ei*Ei*Zi
+            
+            B = np.exp(-Ei/T)
+            
+            E += Ei*B
+            EE += Ei**2*B
             Mi = np.sum(2*spin-1)
-            M += Mi*Zi
-            MM += Mi*Mi*Zi
-            Z += Zi
+            M += Mi*B
+            MM += Mi**2*B
+            Bi += B
         
-        E = E/Z
-        M = M/Z
-        EE = EE/Z
-        MM = MM/Z
+        E /= Bi
+        M /= Bi
+        EE /= Bi
+        MM /= Bi
         
-        HC = (EE - E*E)/(T*T)
-        MS = (MM - M*M)/T
+        HC = (EE/(T**2) - E**2/(T**2))
+        MS = (MM/T - M**2/T)
         
         return E, M, HC, MS

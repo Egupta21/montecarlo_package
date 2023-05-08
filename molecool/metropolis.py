@@ -5,33 +5,29 @@ import matplotlib
 import matplotlib.pyplot as plt
 import copy as cp
 
+def run_avg(prev, curr, i):
+    return (prev*(i-1)+curr)/i
+
 def metropolis_montecarlo(ham, state, T=1, nsweep=1000, nburn=100):
-    E_samples = np.zeros(nsweep) 
-    M_samples = np.zeros(nsweep) 
-    EE_samples = np.zeros(nsweep) 
-    MM_samples = np.zeros(nsweep) 
     
-    # thermalization
-    for si in range(nburn):
-        ham.metropolis_sweep(state, T=T)
-    
-    # accumulation
     ham.metropolis_sweep(state, T=T)
     Ei = ham.energy(state)
     Mi = state.get_mag()
-    M_samples[0]  = Mi 
-    E_samples[0]  = Ei
-    MM_samples[0]  = Mi*Ei
-    EE_samples[0]  = Ei*Ei
-    for si in range(1,nsweep):
+    E_list = [Ei]
+    M_list = [Mi] 
+    EE_list = [Ei**2]
+    MM_list = [Mi**2]  
+    # run metropolis sweep on initial state to populate array
+    #for loop through all possible flips and append the cumilitive 
+    #parameters to the array
+    for i in range(2,nsweep+1):
         ham.metropolis_sweep(state, T=T)
         Ei = ham.energy(state)
         Mi = state.get_mag()
         
-        E_samples[si]  = (E_samples[si-1]*(si) + Ei)/(si+1)
-        EE_samples[si] = (EE_samples[si-1]*(si) + Ei*Ei)/(si+1)
-        
-        M_samples[si]  = (M_samples[si-1]*(si) + Mi)/(si+1)
-        MM_samples[si] = (MM_samples[si-1]*(si) + Mi*Mi)/(si+1)
+        E_list.append(run_avg(E_list[-1], Ei, i))
+        M_list.append(run_avg(M_list[-1], Mi, i))
+        EE_list.append(run_avg(EE_list[-1], Ei ** 2, i))
+        MM_list.append(run_avg(MM_list[-1], Mi ** 2, i))
 
-    return E_samples, M_samples, EE_samples, MM_samples
+    return E_list, M_list, EE_list, MM_list
