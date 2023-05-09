@@ -16,3 +16,16 @@ Copyright (c) 2023, Eashan
  
 Project based on the 
 [Computational Molecular Science Python Cookiecutter](https://github.com/molssi/cookiecutter-cms) version 1.1.
+
+
+#### Details
+
+Implementation of the Montecarlo method to compute on an Ising Hamiltonian.
+
+Must be tested in python 3.10 in Mac/Linux
+
+Implementation of a custom bitstring class, Ising_Hamiltionian class, and metropolis.py file.
+
+Make sure to use the edited jupyter notebook in examples/ising.ipynb to test the code and view the output.
+
+

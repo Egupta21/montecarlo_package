@@ -13,11 +13,17 @@ import scipy
 random.seed(2)
 import math
 
+#ising hamiltonian class
+#takes in and initialized J and mus which are a list of the bounding forces among nodes and the magnetic forces
 class IsingHamiltonian:
     def __init__(self, J=[[()]], mus=np.zeros(1)):
         self.J = J  # interactions between nodes
         self.mus = mus  # magnetic field strength for each node
         
+    #energy function
+    #computes the energy of a state
+    #the state is a bitstring
+    #adds 1 for adjacent similar states and subtracts 1 for non similar
     def energy(self, state):
                 
         e = 0.0
@@ -38,6 +44,8 @@ class IsingHamiltonian:
         
         return e
         
+    #computes the change in the energy after one of the values in the state is flipped
+    #example if i = 1, 000 becomes 010
     def delta_e_for_flip(self, i, state):
     
         spin = 1 - state.config[i]
@@ -49,6 +57,8 @@ class IsingHamiltonian:
         
         return del_e
     
+    #this is used to compute the expected state after a sweep is performed
+    #use the delta e to flip a state and then compute using the constants
     def metropolis_sweep(self, state, T=1.0):
         
         for i in range(len(state)):
@@ -71,6 +81,7 @@ class IsingHamiltonian:
                 
         return state
     
+    #compute the average values of the config.
     def compute_average_values(self, state, T):
 
         n_sites = len(state)
@@ -87,7 +98,7 @@ class IsingHamiltonian:
             Ei = self.energy(conf)
             
             B = np.exp(-Ei/T)
-            print(B)
+            #print(B)
             
             E += Ei*B
             EE += Ei**2*B

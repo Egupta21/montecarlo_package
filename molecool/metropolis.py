@@ -5,6 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import copy as cp
 
+#returns new avg after considering all prev ones and curr one.
 def run_avg(prev, curr, i):
     return (prev*(i-1)+curr)/i
 
