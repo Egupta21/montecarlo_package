@@ -48,13 +48,29 @@ class IsingHamiltonian:
     #example if i = 1, 000 becomes 010
     def delta_e_for_flip(self, i, state):
     
-        spin = 1 - state.config[i]
+        """spin = 1 - state.config[i]
         del_e = 0.0
         for j in self.J[i]:
             adjspin = state.config[j[0]]
             del_e += j[1] * (2*adjspin - 1) * (2 * spin - 1)
         del_e += 2* self.mus[i] * (spin - state.config[i])
         
+        return del_e"""
+        del_e = 0.0
+    
+        spin = 1 - state.config[i]
+        
+        if state.config[i] == 1:
+            for j in self.J[i]:
+                adjspin = state.config[j[0]]
+                del_e += (2.0 * adjspin - 1.0) * j[1] * -2
+            del_e += self.mus[i] * -2
+        else:
+            for j in self.J[i]:
+                adjspin = state.config[j[0]]
+                del_e += (2.0 * adjspin - 1.0) * j[1] * 2
+            del_e += self.mus[i] * 2
+                    
         return del_e
     
     #this is used to compute the expected state after a sweep is performed

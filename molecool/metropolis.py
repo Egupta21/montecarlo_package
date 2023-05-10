@@ -32,3 +32,4 @@ def metropolis_montecarlo(ham, state, T=1, nsweep=1000, nburn=100):
         MM_list.append(run_avg(MM_list[-1], Mi ** 2, i))
 
     return E_list, M_list, EE_list, MM_list
+

@@ -107,7 +107,7 @@ def test_metropolis():
     conf = montecarlo.BitString("0000010000")
     E, M, EE, MM = montecarlo.metropolis_montecarlo(ham, conf, T=T, nsweep=8000, nburn=1000)
 
-    assert(np.isclose(1.75949, E[-1]))
+    assert(np.isclose(1.822149, E[-1]))
     
     
     
