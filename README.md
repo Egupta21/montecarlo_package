@@ -1,6 +1,7 @@
 molecool
 ==============================
 [//]: # (Badges)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://github.com/Egupta21/MonteCarlo/)
 [![GitHub Actions Build Status](https://github.com/Egupta21/molecool/workflows/CI/badge.svg)](https://github.com/Egupta21/molecool/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/Egupta21/molecool/branch/main/graph/badge.svg)](https://codecov.io/gh/Egupta21/molecool/branch/main)
 
